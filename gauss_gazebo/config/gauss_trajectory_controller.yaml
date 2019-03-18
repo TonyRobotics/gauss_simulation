@@ -1,0 +1,108 @@
+gauss:
+  # Publish all joint states 
+  joint_state_controller:
+     type: joint_state_controller/JointStateController
+     publish_rate: 50
+
+  #gazebo_ros_control:
+  #  pid_gains:
+  #    joint1: {p: 1000.0, i: 0.01, d: 10.0}
+  #    joint2: {p: 1000.0, i: 0.01, d: 10.0}
+  #    joint3: {p: 1000.0, i: 0.01, d: 10.0}
+  #    joint4: {p: 1000.0, i: 0.01, d: 10.0}
+  #    joint5: {p: 1000.0, i: 0.01, d: 10.0}
+  #    joint6: {p: 1000.0, i: 0.01, d: 10.0}
+
+  # JointTrajectoryController - Position
+  position_trajectory_controller:
+    type: position_controllers/JointTrajectoryController
+    joints:
+       - joint1
+       - joint2
+       - joint3
+       - joint4
+       - joint5
+       - joint6
+    constraints:
+       goal_time: 0.6
+       stopped_velocity_tolerance: 0.05
+       joint1: {trajectory: 0.5, goal: 0.1}
+       joint2: {trajectory: 0.5, goal: 0.1}
+       joint3: {trajectory: 0.5, goal: 0.1}
+       joint4: {trajectory: 0.5, goal: 0.1}
+       joint5: {trajectory: 0.5, goal: 0.1}
+       joint6: {trajectory: 0.5, goal: 0.1}
+    gains: 
+       joint1: {p: 150,  d: 10.0, i: 0.01, i_clamp: 1}
+       joint2: {p: 150,  d: 10.0, i: 0.01, i_clamp: 1}
+       joint3: {p: 150,  d: 10.0, i: 0.01, i_clamp: 1}
+       joint4: {p: 100,  d: 10.0, i: 0.01, i_clamp: 1}
+       joint5: {p: 100,  d: 10.0, i: 0.01, i_clamp: 1}
+       joint6: {p: 100,  d: 10.0, i: 0.01, i_clamp: 1}
+    stop_trajectory_duration: 0.5
+    state_publish_rate:  25
+    action_monitor_rate: 10
+
+  # JointTrajectoryController - Velocity
+  velocity_trajectory_controller:
+    type: "velocity_controllers/JointTrajectoryController"
+    joints:
+       - joint1
+       - joint2
+       - joint3
+       - joint4
+       - joint5
+       - joint6
+    gains: # Required because we're controlling a velocity interface
+       joint1: {p: 100,  d: 1, i: 1, i_clamp: 1}
+       joint2: {p: 100,  d: 1, i: 1, i_clamp: 1}
+       joint3: {p: 100,  d: 1, i: 1, i_clamp: 1}
+       joint4: {p: 100,  d: 1, i: 1, i_clamp: 1}
+       joint5: {p: 100,  d: 1, i: 1, i_clamp: 1}
+       joint6: {p: 100,  d: 1, i: 1, i_clamp: 1}
+
+  # JointTrajectoryController - Effort
+  effort_trajectory_controller:
+    type: "effort_controllers/JointTrajectoryController"
+    joints:
+       - joint1
+       - joint2
+       - joint3
+       - joint4
+       - joint5
+       - joint6
+    constraints:
+       goal_time: 1.0
+       stopped_velocity_tolerance: 0.05
+       joint1: {trajectory: 0.5, goal: 0.05}
+       joint2: {trajectory: 0.5, goal: 0.05}
+       joint3: {trajectory: 0.5, goal: 0.05}
+       joint4: {trajectory: 0.5, goal: 0.05}
+       joint5: {trajectory: 0.5, goal: 0.05}
+       joint6: {trajectory: 0.5, goal: 0.05}
+    gains: # Required because we're controlling a effort interface
+       joint1: {p: 180,  d: 10, i: 0.01, i_clamp: 1}
+       joint2: {p: 180,  d: 10, i: 0.01, i_clamp: 1}
+       joint3: {p: 180,  d: 10, i: 0.01, i_clamp: 1}
+       joint4: {p: 150,  d: 10, i: 0.01, i_clamp: 1}
+       joint5: {p: 100,  d: 10, i: 0.01, i_clamp: 1}
+       joint6: {p: 100,  d: 10, i: 0.01, i_clamp: 1}
+    stop_trajectory_duration: 0.5
+    state_publish_rate:  25
+    action_monitor_rate: 10
+
+  # gripper_controller
+  gripper_controller:
+    type: "effort_controllers/JointTrajectoryController"
+    joints:
+       - right_gripper_finger_joint
+       - left_gripper_finger_joint
+    gains:
+       right_gripper_finger_joint: {p: 150, i: 0.01, d: 10, i_clamp: 1.0}
+       left_gripper_finger_joint: {p: 150, i: 0.01, d: 10, i_clamp: 1.0}
+    constraints:
+       goal_time: 1.0
+       right_gripper_finger_joint:
+          goal: 0.002
+       left_gripper_finger_joint:
+          goal: 0.002

@@ -1,0 +1,13 @@
+controller_list:
+  - name: fake_gauss_arm_controller
+    joints:
+      - joint1
+      - joint2
+      - joint3
+      - joint4
+      - joint5
+      - joint6
+  - name: fake_gauss_tool_controller
+    joints:
+      - left_gripper_finger_joint
+      - right_gripper_finger_joint
